@@ -1,0 +1,8 @@
+{
+  "name": "SmartRanna - Cook Smarter with AI",
+  "description": "Your smart kitchen partner! Find Bangladeshi & global recipes in Bangla & English, with AI search, step-by-step guides, videos & voice commands.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "prompt": ""
+}
