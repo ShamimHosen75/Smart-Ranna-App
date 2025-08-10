@@ -1,8 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
-import { Recipe, Language, TranslatedRecipe } from '../types';
-import { translateRecipeToBengali } from '../services/geminiService';
-import Spinner from './Spinner';
+import React from 'react';
+import { Recipe, Language } from '../types';
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -34,33 +32,9 @@ const HeartIcon = ({ filled }: { filled: boolean }) => (
 
 
 const RecipeDetail: React.FC<RecipeDetailProps> = ({ recipe, onBack, language, isFavorite, onToggleFavorite }) => {
-  const [translatedContent, setTranslatedContent] = useState<TranslatedRecipe | null>(null);
-  const [isTranslating, setIsTranslating] = useState(false);
-  const [translationError, setTranslationError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const translate = async () => {
-      if (language === 'bn' && !translatedContent) {
-        setIsTranslating(true);
-        setTranslationError(null);
-        try {
-          const translation = await translateRecipeToBengali(recipe);
-          setTranslatedContent(translation);
-        } catch (error) {
-          setTranslationError(error instanceof Error ? error.message : "An unknown error occurred during translation.");
-        } finally {
-          setIsTranslating(false);
-        }
-      }
-    };
-    translate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language, recipe, translatedContent]);
-
-  const ingredients = language === 'bn' && translatedContent ? translatedContent.ingredients : recipe.ingredients;
-  const instructions = language === 'bn' && translatedContent ? translatedContent.instructions : recipe.instructions;
-  
-  const contentLoading = language === 'bn' && isTranslating;
+  const recipeName = language === 'bn' ? recipe.name_bn : recipe.name_en;
+  const ingredients = language === 'bn' ? recipe.ingredients_bn : recipe.ingredients_en;
+  const instructions = language === 'bn' ? recipe.steps_bn : recipe.steps_en;
 
   const favoriteButtonText = {
     en: {
@@ -88,23 +62,32 @@ const RecipeDetail: React.FC<RecipeDetailProps> = ({ recipe, onBack, language, i
       </div>
 
       <div className="p-4 md:p-6">
-        <img src={recipe.image} alt={recipe.name} className="w-full h-64 sm:h-80 md:h-96 object-cover rounded-xl shadow-lg mb-6" />
+        <img src={recipe.imageBase64} alt={recipeName} className="w-full h-64 sm:h-80 md:h-96 object-cover rounded-xl shadow-lg mb-6" />
         
-        <h2 className={`text-[38.5px] md:text-[52px] font-bold text-gray-100 mb-2 ${language === 'bn' ? 'font-bengali' : ''}`}>{recipe.name}</h2>
-        <p className={`text-lg font-semibold text-orange-500 mb-4 ${language === 'bn' ? 'font-bengali' : ''}`}>{recipe.cuisine}</p>
+        <h2 className={`text-[36.5px] md:text-[50px] font-bold text-gray-100 mb-2 ${language === 'bn' ? 'font-bengali' : ''}`}>{recipeName}</h2>
+        <p className={`text-lg font-semibold text-orange-500 mb-4 ${language === 'bn' ? 'font-bengali' : ''}`}>{recipe.category}</p>
 
         <div className="flex flex-wrap gap-4 items-center mb-8">
-            <a
-              href={`https://www.youtube.com/results?search_query=${encodeURIComponent(recipe.youtubeSearchQuery)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-5 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors transform hover:scale-105"
-            >
-              <YouTubeIcon />
-              <span className={`text-base ${language === 'bn' ? 'font-bengali' : ''}`}>
-                {language === 'en' ? 'Watch Tutorial' : 'টিউটোরিয়াল দেখুন'}
-              </span>
-            </a>
+            {recipe.youtube_link && (
+                <div className="flex items-center gap-3">
+                    <a
+                      href={recipe.youtube_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center px-5 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors transform hover:scale-105"
+                    >
+                      <YouTubeIcon />
+                      <span className={`text-base ${language === 'bn' ? 'font-bengali' : ''}`}>
+                        {language === 'en' ? 'Watch Tutorial' : 'টিউটোরিয়াল দেখুন'}
+                      </span>
+                    </a>
+                    {recipe.youtube_link_is_suggested && (
+                        <span className={`px-3 py-1 text-sm font-semibold rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 ${language === 'bn' ? 'font-bengali' : ''}`}>
+                            {language === 'en' ? 'Suggested' : 'প্রস্তাবিত'}
+                        </span>
+                    )}
+                </div>
+            )}
             <button
               onClick={() => onToggleFavorite(recipe)}
               className={`inline-flex items-center justify-center gap-2 px-5 py-3 font-semibold rounded-lg border-2 transition-colors ${
@@ -124,40 +107,28 @@ const RecipeDetail: React.FC<RecipeDetailProps> = ({ recipe, onBack, language, i
             <h3 className={`text-[25px] font-bold text-gray-100 mb-4 border-b border-gray-700 pb-2 ${language === 'bn' ? 'font-bengali' : ''}`}>
                 {language === 'en' ? 'Ingredients' : 'উপকরণ'}
             </h3>
-            {contentLoading ? (
-                <div className="flex justify-center items-center h-40"><Spinner/></div>
-            ) : translationError && language === 'bn' ? (
-                <p className="text-red-500">{translationError}</p>
-            ) : (
-                <ul className="space-y-3">
-                {ingredients.map((item, index) => (
-                    <li key={index} className={`text-base text-gray-300 flex items-start ${language === 'bn' ? 'font-bengali' : ''}`}>
-                        <span className="text-orange-500 mr-3 mt-1 flex-shrink-0">&#10003;</span>
-                        {item}
-                    </li>
-                ))}
-                </ul>
-            )}
+            <ul className="space-y-3">
+            {ingredients.map((item, index) => (
+                <li key={index} className={`text-base text-gray-300 flex items-start ${language === 'bn' ? 'font-bengali' : ''}`}>
+                    <span className="text-orange-500 mr-3 mt-1 flex-shrink-0">&#10003;</span>
+                    {item}
+                </li>
+            ))}
+            </ul>
           </div>
 
           <div className="md:col-span-2 bg-gray-800 p-6 rounded-lg">
              <h3 className={`text-[25px] font-bold text-gray-100 mb-4 border-b border-gray-700 pb-2 ${language === 'bn' ? 'font-bengali' : ''}`}>
                 {language === 'en' ? 'Instructions' : 'প্রস্তুত প্রণালী'}
              </h3>
-             {contentLoading ? (
-                <div className="flex justify-center items-center h-40"><Spinner/></div>
-            ) : translationError && language === 'bn' ? (
-                <p className="text-red-500">{translationError}</p>
-            ) : (
-                <ol className="space-y-5">
-                {instructions.map((step, index) => (
-                    <li key={index} className={`flex items-start text-base text-gray-300 ${language === 'bn' ? 'font-bengali' : ''}`}>
-                    <span className="flex-shrink-0 mr-4 h-8 w-8 bg-orange-500 text-white font-bold text-base rounded-full flex items-center justify-center">{index + 1}</span>
-                    <p className="pt-1">{step}</p>
-                    </li>
-                ))}
-                </ol>
-            )}
+             <ol className="space-y-5">
+             {instructions.map((step, index) => (
+                 <li key={index} className={`flex items-start text-base text-gray-300 ${language === 'bn' ? 'font-bengali' : ''}`}>
+                 <span className="flex-shrink-0 mr-4 h-8 w-8 bg-orange-500 text-white font-bold text-base rounded-full flex items-center justify-center">{index + 1}</span>
+                 <p className="pt-1">{step}</p>
+                 </li>
+             ))}
+             </ol>
           </div>
         </div>
       </div>

@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { Recipe, Language, View } from './types';
 import Header from './components/Header';
@@ -111,7 +112,7 @@ const App: React.FC = () => {
               <p className={`text-xl text-gray-400 ${language === 'bn' ? 'font-bengali' : ''}`}>
                 {language === 'en' ? `Cooking up recipes for "${searchQuery}"...` : `"${searchQuery}" এর জন্য রেসিপি তৈরি করা হচ্ছে...`}
               </p>
-              <p className="text-base text-gray-500">(This might take a moment as our AI chef finds the best recipes)</p>
+              <p className="text-base text-gray-500">(Our AI chef is generating images now, this might take a moment...)</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {Array.from({ length: 8 }).map((_, index) => <RecipeCardSkeleton key={index} />)}

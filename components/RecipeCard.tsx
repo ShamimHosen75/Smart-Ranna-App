@@ -17,18 +17,20 @@ const HeartIcon = ({ filled }: { filled: boolean }) => (
 );
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onSelect, language, isFavorite, onToggleFavorite }) => {
+  const recipeName = language === 'bn' ? recipe.name_bn : recipe.name_en;
+
   return (
     <div
       className="bg-gray-800 rounded-lg shadow-md overflow-hidden group transform hover:-translate-y-1 transition-all duration-300 relative"
     >
       <div onClick={() => onSelect(recipe)} className="cursor-pointer">
-        <img src={recipe.image} alt={recipe.name} className="w-full h-48 object-cover group-hover:opacity-80 transition-opacity" />
+        <img src={recipe.imageBase64} alt={recipeName} className="w-full h-48 object-cover group-hover:opacity-80 transition-opacity" />
         <div className="p-4">
-          <p className={`text-sm font-semibold text-orange-500 uppercase ${language === 'bn' && recipe.cuisine.length > 5 ? 'font-bengali' : ''}`}>
-              {recipe.cuisine}
+          <p className={`text-sm font-semibold text-orange-500 uppercase ${language === 'bn' ? 'font-bengali' : ''}`}>
+              {recipe.category}
           </p>
-          <h3 className={`text-[20.5px] font-bold text-gray-100 mt-1 truncate ${language === 'bn' ? 'font-bengali' : ''}`} title={recipe.name}>
-              {recipe.name}
+          <h3 className={`text-[20.5px] font-bold text-gray-100 mt-1 truncate ${language === 'bn' ? 'font-bengali' : ''}`} title={recipeName}>
+              {recipeName}
           </h3>
         </div>
       </div>

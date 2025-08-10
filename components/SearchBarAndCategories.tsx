@@ -33,7 +33,7 @@ const MicrophoneIcon = ({ listening }: { listening: boolean }) => (
     </svg>
 );
 
-const BANNER_IMAGE_URL = "https://images.pexels.com/photos/5638732/pexels-photo-5638732.jpeg";
+const BANNER_IMAGE_URL = "https://images.pexels.com/photos/6593580/pexels-photo-6593580.jpeg";
 
 
 const SearchBarAndCategories: React.FC<SearchBarAndCategoriesProps> = ({ onSearch, isLoading, language }) => {
@@ -118,9 +118,9 @@ const SearchBarAndCategories: React.FC<SearchBarAndCategoriesProps> = ({ onSearc
     <div className="p-4 md:p-6 text-center">
        <img src={BANNER_IMAGE_URL} 
              alt="A happy couple cooking together in a modern kitchen while looking at a recipe on a smartphone." 
-             className="w-full max-w-4xl mx-auto h-48 md:h-64 object-cover rounded-2xl mb-8 shadow-lg"
+             className="w-full max-w-4xl mx-auto h-52 md:h-64 object-cover rounded-2xl mb-8 shadow-lg"
         />
-      <h2 className={`text-[31.75px] md:text-[38.5px] font-bold text-gray-100 mb-2 ${language === 'bn' ? 'font-bengali' : ''}`}>
+      <h2 className={`text-[30.75px] md:text-[32.5px] font-bold text-gray-100 mb-2 ${language === 'bn' ? 'font-bengali' : ''}`}>
         {language === 'en' ? "What would you like to cook?" : "আজ কি রান্না করতে চান?"}
       </h2>
       <p className={`text-base text-gray-400 mb-6 ${language === 'bn' ? 'font-bengali' : ''}`}>
