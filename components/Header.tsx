@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({
      className="flex items-center gap-1 cursor-pointer"
     >
      <Logo className="h-8 w-8" />
-     <h1 className="text-[15.5px] md:text-[20px] font-bold text-gray-100">
+     <h1 className="text-[20.5px] md:text-[25px] font-bold text-gray-100">
       <span className={language === "bn" ? "font-bengali" : ""}>
        {language === "en" ? "Smart Ranna" : "স্মার্ট রান্না"}
       </span>
@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({
    <div className="flex items-center space-x-4">
     <button
      onClick={onBookmarksClick}
-     className="flex items-center gap-2 text-gray-300 hover:text-orange-500 transition-colors"
+     className="flex items-center gap-1 text-gray-300 hover:text-orange-500 transition-colors"
      aria-label={language === "en" ? "View Bookmarks" : "বুকমার্ক দেখুন"}
     >
      <BookmarkIcon />
