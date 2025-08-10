@@ -153,7 +153,7 @@ const SearchBarAndCategories: React.FC<SearchBarAndCategoriesProps> = ({
     className="w-full max-w-4xl mx-auto h-52 md:h-64 object-cover rounded-2xl mb-8 shadow-lg"
    />
    <h3
-    className={`text-[28.75px] md:text-[23.5px] font-bold text-gray-100 mb-2 ${
+    className={`text-[27.75px] md:text-[20.5px] font-bold text-gray-100 mb-2 ${
      language === "bn" ? "font-bengali" : ""
     }`}
    >
@@ -201,7 +201,7 @@ const SearchBarAndCategories: React.FC<SearchBarAndCategoriesProps> = ({
        disabled={isLoading || !query.trim()}
        className="ml-1 px-4 md:px-6 py-2 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:bg-gray-500 disabled:cursor-not-allowed transition-colors duration-300"
       >
-       <span className={`text-base ${language === "bn" ? "font-bengali" : ""}`}>
+       <span className={`text-sm ${language === "bn" ? "font-bengali" : ""}`}>
         {language === "en" ? "Search" : "খুঁজুন"}
        </span>
       </button>
