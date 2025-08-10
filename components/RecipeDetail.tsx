@@ -106,13 +106,13 @@ const RecipeDetail: React.FC<RecipeDetailProps> = ({
      className="w-full h-64 sm:h-80 md:h-96 object-cover rounded-xl shadow-lg mb-6"
     />
 
-    <h2
-     className={`text-[30.5px] md:text-[40px] font-bold text-gray-100 mb-2 ${
+    <h3
+     className={`text-[30.5px] md:text-[35px] font-bold text-gray-100 mb-2 ${
       language === "bn" ? "font-bengali" : ""
      }`}
     >
      {recipeName}
-    </h2>
+    </h3>
     <p
      className={`text-base font-semibold text-orange-500 mb-4 ${
       language === "bn" ? "font-bengali" : ""
