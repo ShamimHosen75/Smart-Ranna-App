@@ -107,7 +107,7 @@ const RecipeDetail: React.FC<RecipeDetailProps> = ({
     />
 
     <h3
-     className={`text-[30.5px] md:text-[35px] font-bold text-gray-100 mb-2 ${
+     className={`text-[30.5px] md:text-[22px] font-bold text-gray-100 mb-2 ${
       language === "bn" ? "font-bengali" : ""
      }`}
     >
@@ -131,9 +131,7 @@ const RecipeDetail: React.FC<RecipeDetailProps> = ({
         className="inline-flex items-center justify-center px-5 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors transform hover:scale-105"
        >
         <YouTubeIcon />
-        <span
-         className={`text-base ${language === "bn" ? "font-bengali" : ""}`}
-        >
+        <span className={`text-sm ${language === "bn" ? "font-bengali" : ""}`}>
          {language === "en" ? "Watch Tutorial" : "টিউটোরিয়াল দেখুন"}
         </span>
        </a>
@@ -157,7 +155,7 @@ const RecipeDetail: React.FC<RecipeDetailProps> = ({
       }`}
      >
       <HeartIcon filled={isFavorite} />
-      <span className={`text-base ${language === "bn" ? "font-bengali" : ""}`}>
+      <span className={`text-sm ${language === "bn" ? "font-bengali" : ""}`}>
        {isFavorite
         ? favoriteButtonText[language].favorited
         : favoriteButtonText[language].favorite}
